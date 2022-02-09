@@ -1,0 +1,47 @@
+angular.module('myapp',['ngRoute'])
+.config(function($routeProvider)
+{
+    $routeProvider.when('/home',
+    {
+        templateUrl:'home.html',
+        controller:'homectrl'}).when('/home/:first/:last',
+        {
+            templateUrl:'home.html',
+            controller:'homectrl'
+    }).when('/course',
+    {
+        templateUrl:'course.html',
+        controller:'coursectrl'
+    }).when('/student',
+    {
+        templateUrl:'student.html',
+        controller:'studentctrl'
+    })
+})
+.controller('myctrl',function()
+{
+
+})
+.controller("homectrl",function($scope,$routeParams)
+{
+    $scope.message="Home Page"
+    if($routeParams.first&&$routeParams.last)
+    {
+        $scope.person={
+            first:$routeParams.first,
+            last:$routeParams.last
+        };
+    }
+})
+.controller("coursectrl",function($scope)
+{
+   $scope.courses=["MCA","MSC","MBA","BCA","BCom","BBA"]; 
+})
+.controller("studentctrl",function($scope,$http)
+{
+    $http.get('roaster.json')
+    .success(function(response)
+    {
+        $scope.r_ctrl=response.roaster;
+    });
+});
